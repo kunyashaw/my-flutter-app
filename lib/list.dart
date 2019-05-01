@@ -15,26 +15,18 @@ class ListState extends State<ListManager>{
   List list = [];
 
   getList() async{
-    list = [
-      {"id":1,"name":"zzl"},
-      {"id":2,"name":"zzl123"},
-      {"id":3,"name":"zz3444l"},
-    ];
-    print('1---ready to get data');
+    
     // 获取实例
     HttpClient myClient = new HttpClient();
-    print('2---ready to get');
     // 发起请求
     String url = "http://jsonplaceholder.typicode.com/users";
     HttpClientRequest request = await myClient.getUrl(Uri.parse(url));
-    print('3---ready to get response');
     // 等待返回数据
     HttpClientResponse res =  await request.close();
     var result = await res.transform(utf8.decoder).join();
     list = jsonDecode(result);
     // 关闭请求
     myClient.close();
-    
   }
 
   @override
