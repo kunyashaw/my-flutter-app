@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import './index.dart';
-import './logn.dart';
 import './list.dart';
 import './detail.dart';
 import './person.dart';
@@ -37,36 +36,49 @@ class MyApp extends State<MyAppPage> {
             primaryColor: Colors.redAccent, fontFamily: "Google Sans"),
         home: Scaffold(
             body: Center(child: _children.elementAt(_index)),
-            bottomNavigationBar: Theme(
-              data: Theme.of(context).copyWith(
-                // sets the background color of the `BottomNavigationBar`
-                canvasColor: Colors.redAccent,
-              ),
-              child: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                onTap: onTabTapped,
-                fixedColor: Colors.white,
-                currentIndex: _index,
-                items: [
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.home,color: Colors.white,size: _index==0?30:25),
-                      title: new Text("首页",
-                          style: new TextStyle(color: Colors.white, fontSize: 14.0)),
-                      backgroundColor: Colors.white),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.remove_red_eye,color: Colors.white,size: _index==1?30:25),
-                      title: Text('发现',style: new TextStyle(color: Colors.white, fontSize: 14.0)),
-                      backgroundColor: Colors.white),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.wb_sunny,color: Colors.white,size: _index==2?30:25),
-                      title: Text('涉外',style: new TextStyle(color: Colors.white, fontSize: 14.0)),
-                      backgroundColor: Colors.white),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.person,color: Colors.white,size: _index==3?30:25),
-                      title: Text('我的',style: new TextStyle(color: Colors.white, fontSize: 14.0)),
-                      backgroundColor: Colors.white),
-                ],
-              ),
-            )));
+            bottomNavigationBar: SizedBox(
+                height: 85,
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    // sets the background color of the `BottomNavigationBar`
+                    canvasColor: Colors.redAccent,
+                  ),
+                  child: BottomNavigationBar(
+                    type: BottomNavigationBarType.fixed,
+                    onTap: onTabTapped,
+                    fixedColor: Colors.white,
+                    currentIndex: _index,
+                    items: [
+                      BottomNavigationBarItem(
+                          icon: Icon(Icons.home,
+                              color: Colors.white, size: _index == 0 ? 25 : 18),
+                          title: new Text("首页",
+                              style: new TextStyle(
+                                  color: Colors.white, fontSize: 14.0)),
+                          backgroundColor: Colors.white),
+                      BottomNavigationBarItem(
+                          icon: Icon(Icons.remove_red_eye,
+                              color: Colors.white, size: _index == 1 ? 25 : 18),
+                          title: Text('发现',
+                              style: new TextStyle(
+                                  color: Colors.white, fontSize: 14.0)),
+                          backgroundColor: Colors.white),
+                      BottomNavigationBarItem(
+                          icon: Icon(Icons.language,
+                              color: Colors.white, size: _index == 2 ? 25 : 18),
+                          title: Text('涉外',
+                              style: new TextStyle(
+                                  color: Colors.white, fontSize: 14.0)),
+                          backgroundColor: Colors.white),
+                      BottomNavigationBarItem(
+                          icon: Icon(Icons.person,
+                              color: Colors.white, size: _index == 3 ? 25 : 18),
+                          title: Text('我的',
+                              style: new TextStyle(
+                                  color: Colors.white, fontSize: 14.0)),
+                          backgroundColor: Colors.white),
+                    ],
+                  ),
+                ))));
   }
 }
