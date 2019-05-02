@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import './index.dart';
-import './list.dart';
-import './detail.dart';
+import './foreign.dart';
 import './person.dart';
+import './discovery.dart';
 
 void main() => runApp(MyAppPage());
 
@@ -16,9 +16,9 @@ class MyAppPage extends StatefulWidget {
 class MyApp extends State<MyAppPage> {
   int _index = 0;
   final List<Widget> _children = [
-    Center(child: IndexManager()),
-    Center(child: ListManager()),
-    Center(child: Detail(123)),
+    Center(child: IndexPage(title: '123')),
+    Center(child: DiscoveryPage()),
+    Center(child: ForeignPage()),
     PersonManager()
   ];
 
@@ -51,31 +51,31 @@ class MyApp extends State<MyAppPage> {
                     items: [
                       BottomNavigationBarItem(
                           icon: Icon(Icons.home,
-                              color: Colors.white, size: _index == 0 ? 25 : 18),
+                              color: Colors.white, size: _index == 0 ? 20 : 15),
                           title: new Text("首页",
                               style: new TextStyle(
                                   color: Colors.white, fontSize: 14.0)),
                           backgroundColor: Colors.white),
                       BottomNavigationBarItem(
                           icon: Icon(Icons.remove_red_eye,
-                              color: Colors.white, size: _index == 1 ? 25 : 18),
+                              color: Colors.white, size: _index == 1 ? 20 : 15),
                           title: Text('发现',
                               style: new TextStyle(
                                   color: Colors.white, fontSize: 14.0)),
                           backgroundColor: Colors.white),
                       BottomNavigationBarItem(
                           icon: Icon(Icons.language,
-                              color: Colors.white, size: _index == 2 ? 25 : 18),
+                              color: Colors.white, size: _index == 2 ? 20 : 15),
                           title: Text('涉外',
                               style: new TextStyle(
                                   color: Colors.white, fontSize: 14.0)),
                           backgroundColor: Colors.white),
                       BottomNavigationBarItem(
                           icon: Icon(Icons.person,
-                              color: Colors.white, size: _index == 3 ? 25 : 18),
+                              color: Colors.white, size: _index == 3 ? 20 : 15),
                           title: Text('我的',
                               style: new TextStyle(
-                                  color: Colors.white, fontSize: 14.0)),
+                                  color: Colors.white, fontSize: 15.0)),
                           backgroundColor: Colors.white),
                     ],
                   ),

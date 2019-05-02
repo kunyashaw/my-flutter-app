@@ -8,6 +8,6 @@ class Detail extends StatelessWidget {
     appBar: new AppBar(
       title: Text('详情页面'),
     ),
-    body:Text('详情的id是${id}')
+    body:Text('详情的id是$id')
   );
 }

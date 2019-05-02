@@ -1,14 +1,44 @@
 import 'package:flutter/material.dart';
 
-class IndexManager extends StatefulWidget {
+class IndexPage extends StatefulWidget {
+  IndexPage({Key key, this.title}) : super(key: key);
+  final String title;
   @override
   State<StatefulWidget> createState() {
-    return Index();
+    return _IndexPage();
   }
 }
 
-class Index extends State<IndexManager> {
-  showTopInfo() {
+const kExpandedHeight = 250.0;
+
+class _IndexPage extends State<IndexPage> {
+  ScrollController _scrollController;
+    List myList = [
+    {"title": "厦门", "index": 1},
+    {"title": "上海", "index": 2},
+    {"title": "广州", "index": 3},
+    {"title": "西安", "index": 4},
+    {"title": "南京", "index": 5},
+    {"title": "深圳", "index": 6},
+    {"title": "北京", "index": 7},
+    {"title": "郑州", "index": 8},
+    {"title": "天津", "index": 9},
+  ];
+  
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController = ScrollController()..addListener(() => setState(() {}));
+  }
+
+  bool get _showTitle {
+    return _scrollController.hasClients &&
+        _scrollController.offset > kExpandedHeight - kToolbarHeight;
+  }
+
+  showTopBG(){
     return new Container(
       constraints: new BoxConstraints.expand(
         height: 200.0,
@@ -19,12 +49,12 @@ class Index extends State<IndexManager> {
         image: new DecorationImage(
           colorFilter: new ColorFilter.mode(
               Colors.black.withOpacity(1), BlendMode.dstATop),
-          image: new AssetImage('assets/index_bg.jpg'),
+          image: new AssetImage('assets/discovery_bg.jpg'),
           fit: BoxFit.cover,
         ),
       ),
       child: new Text(
-          '30日下午，北京世园会新闻中心举行2019中国北京世界园艺博览会“北京日”活动新闻发布会，介绍各项活动筹备情况、特色亮点等相关信息',
+          '中国馆展览面积15000㎡，分为四大展区，包括中国生态文化展区、中国省区市园艺产业成就展区、中国园艺类高校及科研单位科研成果展区、中国非物质文化遗产插花艺术展区',
           style: new TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -33,90 +63,81 @@ class Index extends State<IndexManager> {
     );
   }
 
-  showCategories(context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    return Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            Image.asset(
-              'assets/1.png',
-              width: width,
-            ),
-          ],
+  showForm() {
+    return Form(
+      child: TextFormField(
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding:
+              new EdgeInsets.symmetric(vertical: 0, horizontal: 30.0),
+          border: new OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide.none),
+          hintText: '请输入关键词搜索',
+          hintStyle: TextStyle(color: Colors.black12),
         ),
-        Row(
-          children: <Widget>[
-            Image.asset(
-              'assets/2.png',
-              width: width,
-            ),
-          ],
-        )
-      ],
+      ),
     );
-  }
-
-  showGridView() {
-    return Flexible(
-      child:GridView(
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 100, //子控件最大寬度爲100
-        childAspectRatio: 0.5, //寬高比爲1:2
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-      ),
-      padding: EdgeInsets.all(10),
-      children: List.generate(
-        20,
-        (index) {
-          return Text("123");
-        },
-      ),
-    ));
   }
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar: AppBar(
+      body: CustomScrollView(controller: _scrollController, slivers: <Widget>[
+        SliverAppBar(
+          pinned: true,
           leading: Row(
             children: <Widget>[
               Text("北京"),
               Icon(Icons.arrow_drop_down),
             ],
           ),
-          title: Form(
-            child: TextFormField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                contentPadding:
-                    new EdgeInsets.symmetric(vertical: 0, horizontal: 30.0),
-                border: new OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide.none),
-                hintText: '请输入关键词搜索',
-                hintStyle: TextStyle(color: Colors.black12),
-              ),
-            ),
-          ),
+          expandedHeight: kExpandedHeight,
+          // title: _showTitle ? showForm() : null,
+          title: showForm(),
           actions: <Widget>[
             new IconButton(
               icon: new Icon(Icons.add),
               onPressed: () {},
             )
           ],
+          flexibleSpace: _showTitle
+              ? null
+              : FlexibleSpaceBar(
+                  title: new Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                    ],
+                  ),
+                  background: showTopBG()
+                ),
         ),
-        body: Column(
-          children: <Widget>[
-            showTopInfo(),
-            showCategories(context),
-            showGridView()
-          ],
-        ));
+        // Image.asset('assets/1.png',width: width,),
+        SliverList(
+          delegate: SliverChildListDelegate(List<Image>.generate(1, (int i) {
+            return Image.asset('assets/1.png',width: width);
+          })),
+        ),
+         SliverPadding(
+          padding: const EdgeInsets.all(20.0),
+          sliver: SliverGrid.count(
+              childAspectRatio: 0.5,
+              crossAxisSpacing: 10.0,
+              crossAxisCount: 2,
+              children: myList
+                  .map((e) => Column(
+                        children: <Widget>[
+                          Expanded(
+                            child: Image.asset("assets/building_${e['index']}.jpg",fit: BoxFit.cover),
+                          ),
+                          Text(e['title']),
+                        ],
+                      ))
+                  .toList()),
+        ),
+      ]),
+    );
   }
 }
