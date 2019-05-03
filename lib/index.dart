@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class IndexPage extends StatefulWidget {
   IndexPage({Key key, this.title}) : super(key: key);
@@ -13,18 +14,18 @@ const kExpandedHeight = 250.0;
 
 class _IndexPage extends State<IndexPage> {
   ScrollController _scrollController;
-    List myList = [
-    {"title": "厦门", "index": 1},
-    {"title": "上海", "index": 2},
-    {"title": "广州", "index": 3},
-    {"title": "西安", "index": 4},
-    {"title": "南京", "index": 5},
-    {"title": "深圳", "index": 6},
-    {"title": "北京", "index": 7},
-    {"title": "郑州", "index": 8},
-    {"title": "天津", "index": 9},
+
+  List myList = [
+    {"title": "厦门", "index": 1, "count": new Random().nextInt(100000)},
+    {"title": "上海", "index": 2, "count": new Random().nextInt(100000)},
+    {"title": "广州", "index": 3, "count": new Random().nextInt(100000)},
+    {"title": "西安", "index": 4, "count": new Random().nextInt(100000)},
+    {"title": "南京", "index": 5, "count": new Random().nextInt(100000)},
+    {"title": "深圳", "index": 6, "count": new Random().nextInt(100000)},
+    {"title": "北京", "index": 7, "count": new Random().nextInt(100000)},
+    {"title": "郑州", "index": 8, "count": new Random().nextInt(100000)},
+    {"title": "天津", "index": 9, "count": new Random().nextInt(100000)},
   ];
-  
 
   @override
   void initState() {
@@ -38,7 +39,7 @@ class _IndexPage extends State<IndexPage> {
         _scrollController.offset > kExpandedHeight - kToolbarHeight;
   }
 
-  showTopBG(){
+  showTopBG() {
     return new Container(
       constraints: new BoxConstraints.expand(
         height: 200.0,
@@ -81,9 +82,56 @@ class _IndexPage extends State<IndexPage> {
     );
   }
 
+  Widget showCard(e) {
+    return Card(
+        borderOnForeground: false,
+        margin: EdgeInsets.all(5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start, //设置列中内容左对齐
+          children: <Widget>[
+            Expanded(
+              child: Image.asset("assets/building_${e['index']}.jpg",
+                  fit: BoxFit.fitHeight),
+            ),
+            Text(
+              "魅力" + e['title'],
+              textAlign: TextAlign.left,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Icon(Icons.person),
+                    Text("Tonny"),
+                  ],
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: '',
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: e['count'].toString(),
+                          style: TextStyle(color: Colors.orange)),
+                      TextSpan(text: '阅读'),
+                    ],
+                  ),
+                )
+              ],
+            )
+          ],
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    List<Image> imgList = [
+      Image.asset('assets/category.png', width: width),
+      // Image.asset('assets/2.png', width: width),
+    ];
+
     return Scaffold(
       body: CustomScrollView(controller: _scrollController, slivers: <Widget>[
         SliverAppBar(
@@ -108,34 +156,21 @@ class _IndexPage extends State<IndexPage> {
               : FlexibleSpaceBar(
                   title: new Column(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                    ],
+                    children: <Widget>[],
                   ),
-                  background: showTopBG()
-                ),
+                  background: showTopBG()),
         ),
         // Image.asset('assets/1.png',width: width,),
         SliverList(
-          delegate: SliverChildListDelegate(List<Image>.generate(1, (int i) {
-            return Image.asset('assets/1.png',width: width);
-          })),
+          delegate: SliverChildListDelegate(imgList),
         ),
-         SliverPadding(
+        SliverPadding(
           padding: const EdgeInsets.all(20.0),
           sliver: SliverGrid.count(
-              childAspectRatio: 0.5,
-              crossAxisSpacing: 10.0,
+              childAspectRatio: 0.4,
+              crossAxisSpacing: 10,
               crossAxisCount: 2,
-              children: myList
-                  .map((e) => Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: Image.asset("assets/building_${e['index']}.jpg",fit: BoxFit.cover),
-                          ),
-                          Text(e['title']),
-                        ],
-                      ))
-                  .toList()),
+              children: myList.map(showCard).toList()),
         ),
       ]),
     );

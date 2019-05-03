@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import './index.dart';
 import './foreign.dart';
@@ -15,6 +16,7 @@ class MyAppPage extends StatefulWidget {
 
 class MyApp extends State<MyAppPage> {
   int _index = 0;
+
   final List<Widget> _children = [
     Center(child: IndexPage(title: '123')),
     Center(child: DiscoveryPage()),
@@ -23,6 +25,7 @@ class MyApp extends State<MyAppPage> {
   ];
 
   onTabTapped(index) {
+  
     setState(() {
       _index = index;
       print(_index);
